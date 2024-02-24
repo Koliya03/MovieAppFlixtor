@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "948052804089",
+    "project_id": "flixtor-b43c5",
+    "storage_bucket": "flixtor-b43c5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:948052804089:android:959398510c76d7f8203d28",
+        "android_client_info": {
+          "package_name": "com.example.app1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCD95XzSsyLndVKxgKF9yrTm--Z8r8gdu0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
