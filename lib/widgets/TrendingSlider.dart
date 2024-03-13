@@ -1,7 +1,11 @@
 import 'package:app1/constants.dart';
 import 'package:app1/models/movie.dart';
 import 'package:app1/screens/movie_detail.dart';
+//import 'package:app1/screens/movie_detail.dart';
+import 'package:app1/screens/sampleSearch.dart';
+import 'package:app1/screens/seachShakya.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:dots_indicator/dots_indicator.dart';
@@ -28,13 +32,15 @@ class _TrendingSliderState extends State<TrendingSlider> {
   Widget build(BuildContext context) {
     return SizedBox(
       width: MediaQuery.of(context).size.width,
+     
       child: Stack(
         children: [
           Column(
             children: [
               CarouselSlider.builder(
                 carouselController: _controller,
-                itemCount: widget.snapshot.data.length,
+                //itemCount: widget.snapshot.data.length,
+                itemCount: 18,
                 options: CarouselOptions(
                   height: 300,
                   autoPlay: true,
@@ -56,37 +62,48 @@ class _TrendingSliderState extends State<TrendingSlider> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => MovieDetail(
+                          builder: (context) => 
+                          MovieDetail(
                             clickedMovie: widget.snapshot.data[itemIndex],
                           ),
+                          //SearchPage()
                         ),
                       );
                     },
                     child: Stack(
                       children: <Widget>[
+                        
                         ClipRRect(
                           borderRadius: BorderRadius.circular(10),
                           child: Image.network(
-                            '${Constants.imagePath}${widget.snapshot.data[itemIndex].posterPath}',
+                            '${Constants.imagePath}${widget.snapshot.data[itemIndex].backdropPath}',
                             height: 300,
                             width: double.infinity,
-                            fit: BoxFit.cover,
+                            fit: BoxFit.fitHeight,
                             filterQuality: FilterQuality.high,
                           ),
                         ),
-                        Positioned(
-                          left: 15,
-                          bottom: 15,
-                          child: Text(
-                            widget.snapshot.data[itemIndex].title,
-                            style: GoogleFonts.mulish(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
+                       // Align(
+                         // alignment: Alignment.bottomCenter,
+                           Positioned(
+                            bottom: 0,
+                            left: 0,
+                            right: 0,
+                            child: Container(
+                              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                              child: Text(
+                                widget.snapshot.data[itemIndex].title,
+                                style: GoogleFonts.mulish(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                ),
+                                textAlign: TextAlign.center,
+                                overflow: TextOverflow.ellipsis,
+                              ),
                             ),
-                            overflow: TextOverflow.ellipsis,
                           ),
-                        ),
+                        //),
                       ],
                     ),
                   );
@@ -100,7 +117,7 @@ class _TrendingSliderState extends State<TrendingSlider> {
             right: 0,
             bottom: 3,
             child: DotsIndicator(
-              dotsCount: widget.snapshot.data.length,
+              dotsCount: 18,
               position: _currentIndex,
               decorator: DotsDecorator(
                 size: const Size.square(8.0),

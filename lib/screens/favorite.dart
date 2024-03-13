@@ -1,9 +1,10 @@
+import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:app1/constants.dart';
 import 'package:app1/models/movie.dart';
 import 'package:app1/screens/movie_detail.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class FavoriteMoviesScreen extends StatefulWidget {
   const FavoriteMoviesScreen({Key? key}) : super(key: key);
@@ -13,28 +14,7 @@ class FavoriteMoviesScreen extends StatefulWidget {
 }
 
 class _FavoriteMoviesScreenState extends State<FavoriteMoviesScreen> {
-  late Future<List<Movie>> _favoriteMoviesFuture;
-
-  @override
-  void initState() {
-    super.initState();
-    _favoriteMoviesFuture = _retrieveDataFromFirebase('favorites');
-  }
-
-  Future<List<Movie>> _retrieveDataFromFirebase(String collectionName) async {
-    List<Movie> favoriteMovies = [];
-
-    try {
-      QuerySnapshot snapshot = await FirebaseFirestore.instance.collection(collectionName).get();
-      setState(() {
-        favoriteMovies = snapshot.docs.map((doc)=> Movie.fromJson(doc.data() as Map<String,dynamic>)).toList();
-      });
-    } catch (e) {
-      print('Error retrieving data from Firebase: $e');
-    }
-
-    return favoriteMovies;
-  }
+  final User? _user = FirebaseAuth.instance.currentUser;
 
   @override
   Widget build(BuildContext context) {
@@ -42,21 +22,27 @@ class _FavoriteMoviesScreenState extends State<FavoriteMoviesScreen> {
       appBar: AppBar(
         title: Text('Favorite Movies'),
       ),
-      body: FutureBuilder<List<Movie>>(
-        future: _favoriteMoviesFuture,
-        builder: (context, snapshot) {
+      body: StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance
+            .collection('users')
+            .doc(_user!.uid)
+            .collection('favorites')
+            .snapshots(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
+          } else if (snapshot.data == null || snapshot.data!.docs.isEmpty) {
+            return Center(child: Text('No favorite movies found.'));
           } else {
-            List<Movie> favoriteMovies = snapshot.data ?? [];
-            if (favoriteMovies.isEmpty) {
-              return Center(child: Text('No favorite movies found.'));
-            }
+            List<Movie> favoriteMovies = snapshot.data!.docs.map((doc) {
+              return Movie.fromJson(doc.data() as Map<String, dynamic>);
+            }).toList();
+
             return GridView.builder(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2, // Change this value according to your needs
+                crossAxisCount: 2,
                 crossAxisSpacing: 10.0,
                 mainAxisSpacing: 10.0,
               ),
@@ -64,43 +50,66 @@ class _FavoriteMoviesScreenState extends State<FavoriteMoviesScreen> {
               itemBuilder: (context, index) {
                 return GestureDetector(
                   onTap: () {
-                    // Navigate to another page when the movie is clicked
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => MovieDetail(
-                            clickedMovie: favoriteMovies[index],
-                          ),
+                        builder: (context) => MovieDetail(clickedMovie: favoriteMovies[index]),
                       ),
                     );
                   },
-                  child: Stack(
-                    children: <Widget>[
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: Image.network(
-                          '${Constants.imagePath}${favoriteMovies[index].posterPath}',
-                          height: 300,
-                          width: double.infinity,
-                          fit: BoxFit.cover,
-                          filterQuality: FilterQuality.high,
+                  child: 
+                  Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Image.network(
+                      '${Constants.imagePath}${favoriteMovies[index].posterPath}',
+                      fit: BoxFit.cover,
+                    ),
+                    Positioned(
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      child: Container(
+                         color: Colors.black.withOpacity(0.5),
+                        child: Column(
+                          children: [
+                            Text(
+                             favoriteMovies[index].title,
+                              style: GoogleFonts.mulish(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                 ),
+                              textAlign: TextAlign.center,
+                              overflow: TextOverflow.ellipsis,  
+                              maxLines: 2,
+                            ),
+                            Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.star,
+                          color: Colors.yellow,
+                          size: 16,
                         ),
-                      ),
-                      Positioned(
-                        left: 15,
-                        bottom: 15,
-                        child: Text(
-                          favoriteMovies[index].title,
-                          style: GoogleFonts.mulish(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
+                        SizedBox(width: 4),
+                        Text(
+                          favoriteMovies[index].voteAverage.toString(),
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ],
+                    ),
+                            ],
                           ),
-                          overflow: TextOverflow.ellipsis,
+                          ],
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
+                )
+                  
                 );
               },
             );
@@ -110,5 +119,3 @@ class _FavoriteMoviesScreenState extends State<FavoriteMoviesScreen> {
     );
   }
 }
-
-

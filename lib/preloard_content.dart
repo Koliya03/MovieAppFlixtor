@@ -1,18 +1,20 @@
 import 'package:app1/api/api.dart';
 import 'package:app1/models/trailer_model.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class PreloadContent extends StatefulWidget {
+class LoadTrailer extends StatefulWidget {
   final int movieId;
 
-  const PreloadContent(this.movieId, {Key? key}) : super(key: key);
+  const LoadTrailer(this.movieId, {Key? key}) : super(key: key);
 
   @override
-  State<PreloadContent> createState() => _PreloadContentState();
+  State<LoadTrailer> createState() => _LoadTrailerState();
 }
 
-class _PreloadContentState extends State<PreloadContent> {
+class _LoadTrailerState extends State<LoadTrailer> {
   late Stream<List<TrailerModel>> _trailersStream;
 
   @override
@@ -45,7 +47,6 @@ class _PreloadContentState extends State<PreloadContent> {
 }
 
 
-
 class TrailerPage extends StatefulWidget {
   final AsyncSnapshot<List<TrailerModel>> snapshot;
 
@@ -58,56 +59,93 @@ class TrailerPage extends StatefulWidget {
 class _TrailerPageState extends State<TrailerPage> {
   @override
   Widget build(BuildContext context) {
-    double itemWidth = (MediaQuery.of(context).size.width - 16) / 2;
-
-    return GridView.count(
+    return GridView.builder(
       padding: EdgeInsets.all(0),
-      crossAxisCount: 2,
-      childAspectRatio: (itemWidth / 155),
-      crossAxisSpacing: 16,
-      mainAxisSpacing: 16,
-      physics: NeverScrollableScrollPhysics(),
-      children: List<Widget>.generate(widget.snapshot.data!.length, (index) {
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        crossAxisSpacing: 20,
+        mainAxisSpacing: 10,
+      ),
+      physics: BouncingScrollPhysics(),
+      itemCount: widget.snapshot.data!.length,
+      itemBuilder: (BuildContext context, int index) {
         return GridTile(
           child: InkWell(
             onTap: () => launch("https://www.youtube.com/watch?v=${widget.snapshot.data![index].key}"),
-            child: Wrap(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Container(
-                  margin: EdgeInsets.only(bottom: 5),
-                  child: Stack(
-                    children: <Widget>[
-                      Image.network('https://img.youtube.com/vi/Fk4GAsJyZAA/default.jpg'),
-                      Container(
-                        width: itemWidth,
-                        height: 100,
-                        color: Colors.black,
-                      ),
-                      Positioned(
-                        top: 36,
-                        left: (itemWidth - 36 - 16) / 2,
+                Stack(
+                  children:<Widget>[
+                    ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: _buildImage(index),
+                  
+                  ),
+                   Center(
                         child: Icon(
                           Icons.play_circle_filled,
-                          size: 36,
-                          color: Colors.white,
+                          size: 40,
+                          color: Colors.red,
                         ),
-                      )
-                    ],
-
+                      ),
+                  ] 
+                ),
+                
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10.0,horizontal: 10),
+                  child: Text(
+                    widget.snapshot.data![index].name,
+                    style: TextStyle(color: Colors.white),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                Text(
-                  widget.snapshot.data![index].name,
-                  style: TextStyle(
-                    color: Colors.white
-                  ),
-                )
               ],
             ),
           ),
         );
-      }),
+      },
     );
   }
-}
 
+  Widget _buildImage(int index) {
+    String imageUrl = 'https://img.youtube.com/vi/${widget.snapshot.data![index].key}/mqdefault.jpg'; // Using "mqdefault" for medium quality thumbnail
+    return Image.network(
+      imageUrl,
+      height: 150,
+      width: double.infinity,
+      fit: BoxFit.fitHeight,
+      filterQuality: FilterQuality.high,
+      loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+        if (loadingProgress == null) {
+          return child;
+        } else {
+          return Center(
+            child: CircularProgressIndicator(
+              value: loadingProgress.expectedTotalBytes != null
+                  ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
+                  : null,
+            ),
+          );
+        }
+      },
+      errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
+        //print(exception);
+        return Container(
+          color: Colors.grey, // Placeholder color for failed images
+          height: 150,
+          width: double.infinity,
+          child: Center(
+            child: Icon(
+              Icons.image_not_supported, // Placeholder icon for failed images
+              color: Colors.white,
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+
+}
