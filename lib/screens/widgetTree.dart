@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:app1/screens/HomeScreen.dart';
 import 'package:app1/screens/LogInPage.dart'; // Import LoginPage
-import 'package:app1/screens/authentication.dart';
+//import 'package:app1/screens/authentication.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class WidgetTree extends StatefulWidget {
