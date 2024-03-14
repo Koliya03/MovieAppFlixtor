@@ -13,6 +13,7 @@ class _HomeScreenTestState extends State<HomeScreenTest> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          
           backgroundColor: Colors.transparent,
           elevation: 0,
           leading: const Icon(

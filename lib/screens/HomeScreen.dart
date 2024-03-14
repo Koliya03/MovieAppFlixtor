@@ -1,14 +1,11 @@
 import 'dart:ui';
 import 'package:app1/api/api.dart';
 import 'package:app1/models/movie.dart';
-import 'package:app1/screens/sampleSearch.dart';
 import 'package:app1/screens/seeMoreScreen.dart';
 import 'package:app1/widgets/MovieSlider.dart';
 import 'package:app1/widgets/Sidebar.dart';
 import 'package:app1/widgets/TrendingSlider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -90,46 +87,27 @@ late Future<List<Movie>> kidsComedyMovies;
                 color: Color.fromARGB(255, 255, 255, 255),
               ),
             ),
-            title:  Text(
-              'Flixtor'.toUpperCase(),
-              style: TextStyle(color: const Color.fromARGB(115, 255, 253, 253)),
-            ),
-            centerTitle: true,
-
-            actions: [
-              IconButton(
-                icon: Icon(
-                  Icons.search,
-                  size: 30,
-                  color: Color.fromARGB(255, 255, 255, 255),
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context, 
-                    MaterialPageRoute(
-                      builder: (context) => SearchPage())
-                    );
-                  // Add your search functionality here
-                },
+            title: Image.asset(
+             //   'myAssets/SCinematix.png',
+                'myAssets/fluxtor.png',
+                fit: BoxFit.fill,
+                height: 70, // Increase the height to 150
+                width: 70,  // Increase the width to 150
               ),
-            ],
-
-
-            
-            
+            centerTitle: true,
           ),
           body: SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                const SizedBox(
+                  height: 10,
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Text(
-                      'Kids Mode',
-                      style: TextStyle(fontSize: 15),
-                      ),
+                    
                     Switch(
                   value: _isKidMode, 
                   onChanged: (mode){
@@ -139,13 +117,18 @@ late Future<List<Movie>> kidsComedyMovies;
                   },
                   activeColor: Colors.green,
                   inactiveTrackColor: Colors.grey,
-                  ),],
-                ),
-                Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 0.5,
-                    color: Color.fromARGB(112, 255, 255, 255),
                   ),
+                  const Text(
+                      'Kids Mode',
+                      style: TextStyle(fontSize: 18),
+                      ),
+                  ],
+                  
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                
                 Row(
                   children: <Widget>[
                     Expanded(
@@ -181,11 +164,7 @@ late Future<List<Movie>> kidsComedyMovies;
                     ),
                   ],
                 ),
-                Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 0.5,
-                    color: Color.fromARGB(112, 255, 255, 255),
-                  ),
+                
                 const SizedBox(height: 32),
                 SizedBox(
                   child: FutureBuilder(
@@ -204,11 +183,7 @@ late Future<List<Movie>> kidsComedyMovies;
                   ),
                 ),
                 const SizedBox(height: 40),
-                Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 0.5,
-                    color: Color.fromARGB(112, 255, 255, 255),
-                  ),
+                
                 Row(
                   children: <Widget>[
                     Expanded(
@@ -259,11 +234,7 @@ late Future<List<Movie>> kidsComedyMovies;
                    // ),
                   ],
                 ),
-                Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 0.5,
-                    color: Color.fromARGB(112, 255, 255, 255),
-                  ),
+                
                   const SizedBox(height: 32),
                 SizedBox(
                   child: FutureBuilder(
@@ -282,11 +253,7 @@ late Future<List<Movie>> kidsComedyMovies;
                   ),
                 ),
                  const SizedBox(height: 40),
-                 Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 0.5,
-                    color: Color.fromARGB(112, 255, 255, 255),
-                  ),
+                 
                 Row(
                   children: <Widget>[
                     Expanded(
@@ -320,11 +287,7 @@ late Future<List<Movie>> kidsComedyMovies;
                     ),
                   ],
                 ),
-                Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 0.5,
-                    color: Color.fromARGB(112, 255, 255, 255),
-                  ),
+                
                   const SizedBox(height: 32),
                 SizedBox(
                   child: FutureBuilder(
@@ -343,11 +306,7 @@ late Future<List<Movie>> kidsComedyMovies;
                   ),
                 ),
                 const SizedBox(height: 40),
-                Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 0.5,
-                    color: Color.fromARGB(112, 255, 255, 255),
-                  ),
+                
                 Row(
                   children: <Widget>[
                     Expanded(
@@ -381,11 +340,7 @@ late Future<List<Movie>> kidsComedyMovies;
                     ),
                   ],
                 ),
-                Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 0.5,
-                    color: Color.fromARGB(112, 255, 255, 255),
-                  ),
+                
                   const SizedBox(height: 32),
                 SizedBox(
                   child: FutureBuilder(
@@ -404,11 +359,7 @@ late Future<List<Movie>> kidsComedyMovies;
                   ),
                 ),
                 const SizedBox(height: 40),
-                Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 0.5,
-                    color: Color.fromARGB(112, 255, 255, 255),
-                  ),
+                
                 Row(
                   children: <Widget>[
                     Expanded(
@@ -441,11 +392,7 @@ late Future<List<Movie>> kidsComedyMovies;
                     ),
                   ],
                 ),
-                Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 0.5,
-                    color: Color.fromARGB(112, 255, 255, 255),
-                  ),
+                
                 const SizedBox(height: 32),
                 SizedBox(
                   child: FutureBuilder(

@@ -192,7 +192,7 @@ class _SearchPageState extends State<SearchPage> {
                     itemBuilder: (context, index) => CustomListTile(
                       height: 230,
                       title: Text(
-                        displayedMovies[index].title!,
+                        displayedMovies[index].title,
                         style: TextStyle(color: Colors.white),
                       ),
                       subtitle: Text(

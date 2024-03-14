@@ -1,11 +1,7 @@
 import 'package:app1/constants.dart';
 import 'package:app1/models/movie.dart';
 import 'package:app1/screens/movie_detail.dart';
-//import 'package:app1/screens/movie_detail.dart';
-import 'package:app1/screens/sampleSearch.dart';
-import 'package:app1/screens/seachShakya.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:dots_indicator/dots_indicator.dart';

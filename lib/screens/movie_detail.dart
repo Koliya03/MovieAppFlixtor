@@ -1,17 +1,12 @@
-import 'dart:ui';
 
 import 'package:app1/api/api.dart';
 import 'package:app1/constants.dart';
 import 'package:app1/models/movie.dart';
 import 'package:app1/preloard_content.dart';
-//import 'package:app1/screens/widgetTree.dart';
-//import 'package:app1/screens/widgetTree.dart';
 import 'package:app1/widgets/GenreNameForMovieDetail.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class MovieDetail extends StatefulWidget {
   const MovieDetail({
@@ -110,16 +105,16 @@ class _MovieDetailState extends State<MovieDetail> {
       CollectionReference favoritesCollection =
           FirebaseFirestore.instance.collection('users').doc(_user!.uid).collection('favorites');
       favoritesCollection.doc(movie.title).set({
-        'title': movie.title ?? '',
-        'backdrop_path': movie.backdropPath ?? '',
-        'original_title': movie.originalTitle ?? '',
-        'overview': movie.overview ?? '',
-        'poster_path': movie.posterPath ?? '',
-        'release_date': movie.releaseDate ?? '',
-        'vote_average': movie.voteAverage ?? 0.0,
+        'title': movie.title ,
+        'backdrop_path': movie.backdropPath ,
+        'original_title': movie.originalTitle ,
+        'overview': movie.overview ,
+        'poster_path': movie.posterPath ,
+        'release_date': movie.releaseDate ,
+        'vote_average': movie.voteAverage ,
       });
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text('Movie added to My Favorites!'),
         ),
       );
@@ -136,17 +131,17 @@ class _MovieDetailState extends State<MovieDetail> {
        CollectionReference watchlistCollection =
           FirebaseFirestore.instance.collection('users').doc(_user!.uid).collection('watchlist');
       watchlistCollection.doc(movie.title).set({
-        'title': movie.title ?? '',
-        'backdrop_path': movie.backdropPath ?? '',
-        'original_title': movie.originalTitle ?? '',
-        'overview': movie.overview ?? '',
-        'poster_path': movie.posterPath ?? '',
-        'release_date': movie.releaseDate ?? '',
-        'vote_average': movie.voteAverage ?? 0.0,
+        'title': movie.title ,
+        'backdrop_path': movie.backdropPath ,
+        'original_title': movie.originalTitle ,
+        'overview': movie.overview ,
+        'poster_path': movie.posterPath ,
+        'release_date': movie.releaseDate ,
+        'vote_average': movie.voteAverage ,
       });
       
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text('Movie added to watchlist!'),
         ),
       );
@@ -212,8 +207,8 @@ class _MovieDetailState extends State<MovieDetail> {
                 top: 50,
                 child: InkWell(
                   onTap: ()=>Navigator.pop(context) ,
-                  child: Icon(
-                    Icons.arrow_back,
+                  child: const Icon(
+                    Icons.arrow_circle_left_outlined,
                     color: Colors.white,
                   ),
                 ),
@@ -233,12 +228,12 @@ class _MovieDetailState extends State<MovieDetail> {
               Positioned(
                 top: 430,
                 child: Container(
-                  padding: EdgeInsets.only(left: 20, top: 8),
+                  padding: const EdgeInsets.only(left: 20, top: 8),
                   width: MediaQuery.of(context).size.width,
                   height: 80,
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
-                      stops: [0.1, 0.3, 0.5, 0.7],
+                      stops: const [0.1, 0.3, 0.5, 0.7],
                       colors: [
                         const Color.fromARGB(198, 0, 0, 0).withOpacity(0.1),
                         const Color.fromARGB(198, 0, 0, 0).withOpacity(0.3),
@@ -367,7 +362,7 @@ class _MovieDetailState extends State<MovieDetail> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-                              Icon(
+                              const Icon(
                                 Icons.star,
                                 color: Colors.red,
                                 size: 28,
@@ -375,12 +370,12 @@ class _MovieDetailState extends State<MovieDetail> {
                               RichText(
                                 text: TextSpan(
                                     text: widget.clickedMovie.voteAverage.toString(),
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold,
                                         fontSize: 20
                                     ),
-                                    children: <TextSpan>[
+                                    children: const <TextSpan>[
                                       TextSpan(
                                           text: ' / 10',
                                           style: TextStyle(
@@ -444,16 +439,16 @@ class _MovieDetailState extends State<MovieDetail> {
                   Container(
                   width: MediaQuery.of(context).size.width,
                   height: 0.5,
-                  color: Color.fromARGB(112, 255, 255, 255),
+                  color: const Color.fromARGB(112, 255, 255, 255),
                   
                 ),
                 Container(
                     width: MediaQuery.of(context).size.width - 40,
-                    child: Column(
+                    child: const Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.max,
                       children: <Widget>[
-                        const Text(
+                        Text(
                           'Description',
                           style: TextStyle(
                               color: Colors.white,
@@ -470,17 +465,17 @@ class _MovieDetailState extends State<MovieDetail> {
           ),
           Text(
                       widget.clickedMovie.overview,
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.white,
                         fontSize: 18,
                       ),
                       
 
               ),
-              SizedBox(
+              const SizedBox(
                       height: 8,
                ) ,
-               Align(
+               const Align(
                 alignment: Alignment.topLeft,
                  child: Text(
                         'Video Clips',
@@ -492,7 +487,7 @@ class _MovieDetailState extends State<MovieDetail> {
                         ),
                         ),
                ),
-               SizedBox(
+               const SizedBox(
                       height: 8,
                ) ,
                 Container(
