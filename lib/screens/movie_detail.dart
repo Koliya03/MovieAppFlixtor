@@ -209,7 +209,8 @@ class _MovieDetailState extends State<MovieDetail> {
                   onTap: ()=>Navigator.pop(context) ,
                   child: const Icon(
                     Icons.arrow_circle_left_outlined,
-                    color: Colors.white,
+                    size: 40,
+                    color: Colors.black,
                   ),
                 ),
               ),

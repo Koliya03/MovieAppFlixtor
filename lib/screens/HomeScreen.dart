@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:app1/api/api.dart';
 import 'package:app1/models/movie.dart';
+import 'package:app1/screens/sampleSearch.dart';
 import 'package:app1/screens/seeMoreScreen.dart';
 import 'package:app1/widgets/MovieSlider.dart';
 import 'package:app1/widgets/Sidebar.dart';
@@ -94,7 +95,47 @@ late Future<List<Movie>> kidsComedyMovies;
                 height: 70, // Increase the height to 150
                 width: 70,  // Increase the width to 150
               ),
+              actions: [
+  OutlinedButton(
+    onPressed: () {
+      Navigator.push(
+        context, 
+        MaterialPageRoute(
+          builder: (context) => SearchPage()
+        )
+      );
+      // Add your search functionality here
+    },
+    style: ButtonStyle(
+      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+        RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.0), // Adjust the value as needed
+          side: BorderSide(color: Colors.white), // Border color
+        ),
+      ),
+    ),
+    child: Row(
+      children: [
+        Icon(
+          Icons.search,
+          size: 30,
+          color: Colors.white,
+        ),
+        SizedBox(width: 5), // Adjust spacing between icon and text
+        Text(
+          "Search",
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 18, // Adjust font size as needed
+          ),
+        ),
+      ],
+    ),
+  ),
+],
             centerTitle: true,
+            
+
           ),
           body: SingleChildScrollView(
             physics: const BouncingScrollPhysics(),

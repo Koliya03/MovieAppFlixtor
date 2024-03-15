@@ -64,7 +64,7 @@ class _TrailerPageState extends State<TrailerPage> {
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         crossAxisSpacing: 20,
-        mainAxisSpacing: 10,
+        mainAxisSpacing: 20,
       ),
       physics: BouncingScrollPhysics(),
       itemCount: widget.snapshot.data!.length,
@@ -96,9 +96,10 @@ class _TrailerPageState extends State<TrailerPage> {
                   padding: const EdgeInsets.symmetric(vertical: 10.0,horizontal: 10),
                   child: Text(
                     widget.snapshot.data![index].name,
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(color: Colors.white,),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
+                    
                   ),
                 ),
               ],
@@ -113,7 +114,7 @@ class _TrailerPageState extends State<TrailerPage> {
     String imageUrl = 'https://img.youtube.com/vi/${widget.snapshot.data![index].key}/mqdefault.jpg'; // Using "mqdefault" for medium quality thumbnail
     return Image.network(
       imageUrl,
-      height: 150,
+      height: 120,
       width: double.infinity,
       fit: BoxFit.fitHeight,
       filterQuality: FilterQuality.high,
