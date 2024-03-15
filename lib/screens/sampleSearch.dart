@@ -8,10 +8,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-enum SearchMode {
-  movieTitle,
-  actorName,
-}
 
 class SearchPage extends StatefulWidget {
   SearchPage({Key? key}) : super(key: key);
@@ -22,7 +18,6 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
   late Future<List<Movie>> moviesList;
-  SearchMode searchMode = SearchMode.movieTitle;
 
   TextEditingController searchController = TextEditingController();
   List<Movie> displayedMovies = [];
@@ -34,15 +29,13 @@ class _SearchPageState extends State<SearchPage> {
   int currentIndex = 0;
   bool isSorted = false;
 
-  void updateSearchMode(SearchMode mode) {
+  void updateSearchMode() {
     setState(() {
-      searchMode = mode;
+      
       searchController.clear();
-      if (searchMode == SearchMode.movieTitle) {
-        displayedMovies = searchedMovies.isNotEmpty ? searchedMovies : unsortedMovies;
-      } else {
-        displayedMovies = storedMovies;
-      }
+      
+      displayedMovies = searchedMovies.isNotEmpty ? searchedMovies : unsortedMovies;
+      
     });
   }
 
@@ -149,7 +142,7 @@ class _SearchPageState extends State<SearchPage> {
                     displayedMovies = unsortedMovies; // Show unsorted movies when query is empty
                   });
                 } else {
-                  if (searchMode == SearchMode.movieTitle) {
+                  
                     searchMovies(query).then((searchResults) {
                       setState(() {
                         searchedMovies = searchResults;
@@ -157,9 +150,7 @@ class _SearchPageState extends State<SearchPage> {
                         //unsortedMovies = displayedMovies;
                       });
                     });
-                  } else {
-                    // Handle search by actor name
-                  }
+                  
                 }
               },
               decoration: InputDecoration(

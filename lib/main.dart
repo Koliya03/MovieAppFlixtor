@@ -1,3 +1,4 @@
+import 'package:app1/dependency_injection.dart';
 import 'package:app1/firebase_options.dart';
 import 'package:app1/screens/LoginPage.dart'; // Import LoginPage
 import 'package:app1/screens/HomeScreen.dart';
@@ -5,6 +6,8 @@ import 'package:app1/screens/authentication.dart';
 import 'package:app1/screens/widgetTree.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
@@ -16,6 +19,7 @@ Future<void> main() async {
   final rememberMe = prefs.getBool('rememberMe') ?? false;
 
   runApp(MyApp(rememberMe: rememberMe));
+  DependencyInjection.init();
 }
 
 class MyApp extends StatelessWidget {
@@ -25,7 +29,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.leanBack);
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Movie App',
       theme: ThemeData.dark().copyWith(

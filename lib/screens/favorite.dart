@@ -6,6 +6,7 @@ import 'package:app1/screens/movie_detail.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+// Screen to display favorite movies of the user
 class FavoriteMoviesScreen extends StatefulWidget {
   const FavoriteMoviesScreen({Key? key}) : super(key: key);
 
@@ -25,14 +26,16 @@ class _FavoriteMoviesScreenState extends State<FavoriteMoviesScreen> {
       ),
       body: Column(
         children: [
-           Container(
+          Container(
             height: 20,
           ),
+          // Buttons for sorting movies
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               ElevatedButton(
                 onPressed: () {
+                  // Set sorting order to ascending
                   setState(() {
                     _isAscendingOrder = true;
                   });
@@ -44,6 +47,7 @@ class _FavoriteMoviesScreenState extends State<FavoriteMoviesScreen> {
               ),
               ElevatedButton(
                 onPressed: () {
+                  // Set sorting order to descending
                   setState(() {
                     _isAscendingOrder = false;
                   });
@@ -59,7 +63,7 @@ class _FavoriteMoviesScreenState extends State<FavoriteMoviesScreen> {
             height: 20,
           ),
 
-          
+          // Display favorite movies in a grid view
           Expanded(
             child: StreamBuilder<QuerySnapshot>(
               stream: FirebaseFirestore.instance
@@ -76,10 +80,12 @@ class _FavoriteMoviesScreenState extends State<FavoriteMoviesScreen> {
                 } else if (snapshot.data == null || snapshot.data!.docs.isEmpty) {
                   return Center(child: Text('No favorite movies found.'));
                 } else {
+                  // Convert QuerySnapshot to list of Movie objects
                   List<Movie> favoriteMovies = snapshot.data!.docs.map((doc) {
                     return Movie.fromJson(doc.data() as Map<String, dynamic>);
                   }).toList();
 
+                  // Display favorite movies in a grid view
                   return GridView.builder(
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
@@ -90,6 +96,7 @@ class _FavoriteMoviesScreenState extends State<FavoriteMoviesScreen> {
                     itemBuilder: (context, index) {
                       return GestureDetector(
                         onTap: () {
+                          // Navigate to movie detail screen when a movie is tapped
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -100,10 +107,12 @@ class _FavoriteMoviesScreenState extends State<FavoriteMoviesScreen> {
                         child: Stack(
                           alignment: Alignment.center,
                           children: [
+                            // Display movie poster image
                             Image.network(
                               '${Constants.imagePath}${favoriteMovies[index].posterPath}',
                               fit: BoxFit.cover,
                             ),
+                            // Display movie title and rating
                             Positioned(
                               bottom: 0,
                               left: 0,

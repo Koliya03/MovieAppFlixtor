@@ -1,3 +1,4 @@
+// Importing necessary packages and files
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:app1/screens/HomeScreen.dart';
@@ -6,6 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:app1/screens/authentication.dart';
 
+// Define the LoginPage widget
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key});
 
@@ -13,12 +15,14 @@ class LoginPage extends StatefulWidget {
   State<LoginPage> createState() => _LoginPageState();
 }
 
+// State class for the LoginPage widget
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerPassword = TextEditingController();
   String? errorMessage = '';
   late bool rememberMe;
 
+  // Initialize state variables
   @override
   void initState() {
     super.initState();
@@ -26,6 +30,7 @@ class _LoginPageState extends State<LoginPage> {
     _loadRememberMe();
   }
 
+  // Load remember me preference from SharedPreferences
   Future<void> _loadRememberMe() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -37,6 +42,7 @@ class _LoginPageState extends State<LoginPage> {
     });
   }
 
+  // Save remember me preference to SharedPreferences
   Future<void> _saveRememberMe(bool value) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool('rememberMe', value);
@@ -46,6 +52,7 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
+  // Sign in with email and password
   Future<void> signInWithEmailAndPassword(BuildContext context) async {
     try {
       await Auth().signInWithEmailAndPassword(
@@ -63,6 +70,7 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
+  // Build the UI for the login page
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -91,6 +99,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
+  // Widget for the title of the login page
   Widget _frontTitle() {
     return Container(
       padding: const EdgeInsets.all(20),
@@ -120,6 +129,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
+  // Widget for text input fields
   Widget _entryField(String title, TextEditingController controller) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -150,6 +160,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
+  // Widget to display error message
   Widget _errorMessage() {
     return Text(
       errorMessage == '' ? '' : 'Error: $errorMessage',
@@ -157,6 +168,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
+  // Widget for remember me checkbox
   Widget _buildRememberMeCheckbox() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -180,62 +192,63 @@ class _LoginPageState extends State<LoginPage> {
       ],
     );
   }
-Widget _buildLoginButton(BuildContext context) {
-  return Container(
-    padding: const EdgeInsets.symmetric(horizontal: 40),
-    child: TextButton(
-      onPressed: () => signInWithEmailAndPassword(context),
-      style: ButtonStyle(
-        padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-          EdgeInsets.zero,
-        ),
-        backgroundColor: MaterialStateProperty.all<Color>(
-          Colors.transparent,
-        ),
-        foregroundColor: MaterialStateProperty.all<Color>(
-          Colors.white,
-        ),
-        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-          RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(6.0),
-            side: BorderSide(
-              color: Colors.white.withOpacity(0.1),
-              width: 0.5,
+
+  // Widget for the login button
+  Widget _buildLoginButton(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 40),
+      child: TextButton(
+        onPressed: () => signInWithEmailAndPassword(context),
+        style: ButtonStyle(
+          padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+            EdgeInsets.zero,
+          ),
+          backgroundColor: MaterialStateProperty.all<Color>(
+            Colors.transparent,
+          ),
+          foregroundColor: MaterialStateProperty.all<Color>(
+            Colors.white,
+          ),
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(6.0),
+              side: BorderSide(
+                color: Colors.white.withOpacity(0.1),
+                width: 0.5,
+              ),
             ),
           ),
         ),
-      ),
-      child: Ink(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(6),
-          gradient: LinearGradient(
-            colors: [
-              Color(0xff43060F).withOpacity(0.2),
-              Color(0xff43060F),
-              Color(0xff43060F).withOpacity(0.2),
-            ],
+        child: Ink(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(6),
+            gradient: LinearGradient(
+              colors: [
+                Color(0xff43060F).withOpacity(0.2),
+                Color(0xff43060F),
+                Color(0xff43060F).withOpacity(0.2),
+              ],
+            ),
           ),
-        ),
-        child: Container(
-          padding: EdgeInsets.all(10),
-          child: Center(
-            child: Text(
-              'Login',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
+          child: Container(
+            padding: EdgeInsets.all(10),
+            child: Center(
+              child: Text(
+                'Login',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
               ),
             ),
           ),
         ),
       ),
-    ),
-  );
-}
+    );
+  }
 
-
-
+  // Widget for the sign-up link
   Widget _buildSignUpLink(BuildContext context) {
     return RichText(
       text: TextSpan(
